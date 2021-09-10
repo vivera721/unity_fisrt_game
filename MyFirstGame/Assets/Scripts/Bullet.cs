@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum OwnerSide: int
+public enum OwnerSide : int
 {
     Player = 0,
     Enemy
@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     float Speed = 0.0f;
 
-    bool NeedMove = false;
+    //bool NeedMove = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,8 +28,6 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!NeedMove)
-            return;
 
         UpdateMove();
     }

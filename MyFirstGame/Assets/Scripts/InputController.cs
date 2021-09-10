@@ -14,6 +14,7 @@ public class InputController : MonoBehaviour
     void Update()
     {
         UpdateInput();
+        UpdateZKey();
     }
 
     void UpdateInput()
@@ -38,6 +39,14 @@ public class InputController : MonoBehaviour
         }
 
         SystemManager.Instance.Hero.ProcessInput(moveDir);
+    }
+
+    void UpdateZKey()
+    {
+        if (Input.GetKey(KeyCode.Z))
+        {
+            SystemManager.Instance.Hero.Fire();
+        }
     }
 
 }
