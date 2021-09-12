@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
         MoveVector = moveDirection * Speed * Time.deltaTime;
     }
 
-    Vector3 AdjustMoveVector ( Vector3 moveVector)
+    Vector3 AdjustMoveVector(Vector3 moveVector)
     {
         Vector3 result = Vector3.zero;
 
@@ -83,13 +83,14 @@ public class Player : MonoBehaviour
 
     public void Fire()
     {
+
         GameObject leftgo = Instantiate(Bullet);
         GameObject rightgo = Instantiate(Bullet);
-
         Bullet leftbullet = leftgo.GetComponent<Bullet>();
         Bullet rightbullet = rightgo.GetComponent<Bullet>();
         leftbullet.Fire(OwnerSide.Player, FireTransformLeft.position, FireTransformLeft.up, BulletSpeed);
         rightbullet.Fire(OwnerSide.Player, FireTransformRight.position, FireTransformRight.up, BulletSpeed);
+
     }
 
 }

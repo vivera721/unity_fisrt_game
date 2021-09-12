@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
+    int DelayTime;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -21,7 +22,7 @@ public class InputController : MonoBehaviour
     {
         Vector3 moveDir = Vector3.zero;
 
-        if(Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             moveDir.y = 1;
         }
@@ -45,7 +46,13 @@ public class InputController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Z))
         {
-            SystemManager.Instance.Hero.Fire();
+            DelayTime++;
+            if(DelayTime % 50 == 1)
+            {
+                Debug.Log("조건문 돌리기");
+                SystemManager.Instance.Hero.Fire();
+
+            }
         }
     }
 
