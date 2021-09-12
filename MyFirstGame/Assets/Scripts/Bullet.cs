@@ -18,7 +18,9 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     float Speed = 0.0f;
 
-    //bool NeedMove = false;
+    bool hited = false;
+
+    bool NeedMove = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,8 +36,11 @@ public class Bullet : MonoBehaviour
 
     void UpdateMove()
     {
-        Vector3 moveVector = moveDirection.normalized * Speed * Time.deltaTime;
+        if (!NeedMove)
+            return;
 
+        Vector3 moveVector = moveDirection.normalized * Speed * Time.deltaTime;
+        moveVector = AdjustMove(moveVector);
         transform.position += moveVector;
     }
 
@@ -45,5 +50,47 @@ public class Bullet : MonoBehaviour
         transform.position = firePosition;
         moveDirection = direction;
         Speed = speed;
+
+        NeedMove = true;
+    }
+
+    Vector3 AdjustMove(Vector3 moveVector)
+    {
+        RaycastHit hitInfo;
+
+        // 라인 캐스트는 시작점 끝점이 있는 선
+        // 그 선에 뭐가 걸리는지 체크
+        if(Physics.Linecast(transform.position,transform.position + moveVector, out hitInfo))
+        {
+            moveVector = hitInfo.point - transform.position;
+            OnBulletCollision(hitInfo.collider);
+        }
+        return moveVector;
+    }
+
+    void OnBulletCollision(Collider collider)
+    {
+        if (hited)
+            return;
+
+        Collider myCollider = GetComponentInChildren<Collider>();
+        myCollider.enabled = false;
+
+        hited = true;
+        NeedMove = false;
+
+        if (ownerSide == OwnerSide.Player)
+        {
+            Enemy enemy = collider.GetComponentInParent<Enemy>();
+        }
+        else
+        {
+            Player player = collider.GetComponentInParent<Player>();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        OnBulletCollision(other);
     }
 }

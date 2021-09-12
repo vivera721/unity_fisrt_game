@@ -46,12 +46,11 @@ public class InputController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Z))
         {
+            // 총알 연속 발사 및 딜레이 주기
             DelayTime++;
             if(DelayTime % 50 == 1)
             {
-                Debug.Log("조건문 돌리기");
                 SystemManager.Instance.Hero.Fire();
-
             }
         }
     }
