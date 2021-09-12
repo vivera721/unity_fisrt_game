@@ -202,14 +202,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712140413b8ff434eb1bc3f913636a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHP: 100
+  CurrentHP: 0
+  Damage: 35
+  crashDamage: 100
+  isDead: 0
   CurrenState: -1
   TargetPosition: {x: 0, y: 0, z: 0}
   CurrentSpeed: 0
   FireTransform: {fileID: 7691318894357244956}
   Bullet: {fileID: 3409438217321598266, guid: e330bcf416632294db1dbffaa70d8892, type: 3}
   BulletSpeed: 5
-  FireRemainCount: 10
-  player1: {fileID: 0}
+  FireRemainCount: 3
 --- !u!54 &3135489501141929841
 Rigidbody:
   m_ObjectHideFlags: 0

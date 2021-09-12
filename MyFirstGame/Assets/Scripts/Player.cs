@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Actor
 {
     [SerializeField]
     Vector3 MoveVector = Vector3.zero;
@@ -24,14 +24,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     float BulletSpeed = 1;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    private Transform tp;
 
-    }
-
-    // Update is called once per frame
-    void Update()
+    protected override void UpdateActor()
     {
         UpdateMove();
     }
@@ -73,12 +68,14 @@ public class Player : MonoBehaviour
         Debug.Log("other = " + other.name);
         Enemy enemy = other.GetComponentInParent<Enemy>();
         if (enemy)
-            enemy.OnCrash(this);
+            if (!enemy.IsDead)
+                enemy.OnCrash(this, CrashDamage);
     }
 
-    public void OnCrash(Enemy enemy)
+    public void OnCrash(Enemy enemy, int damage)
     {
         Debug.Log("oncrash enemy = " + enemy);
+        OnCrash(damage);
     }
 
     public void Fire()
@@ -88,8 +85,8 @@ public class Player : MonoBehaviour
         GameObject rightgo = Instantiate(Bullet);
         Bullet leftbullet = leftgo.GetComponent<Bullet>();
         Bullet rightbullet = rightgo.GetComponent<Bullet>();
-        leftbullet.Fire(OwnerSide.Player, FireTransformLeft.position, FireTransformLeft.up, BulletSpeed);
-        rightbullet.Fire(OwnerSide.Player, FireTransformRight.position, FireTransformRight.up, BulletSpeed);
+        leftbullet.Fire(OwnerSide.Player, FireTransformLeft.position, FireTransformLeft.up, BulletSpeed, Damage);
+        rightbullet.Fire(OwnerSide.Player, FireTransformRight.position, FireTransformRight.up, BulletSpeed, Damage);
 
     }
 

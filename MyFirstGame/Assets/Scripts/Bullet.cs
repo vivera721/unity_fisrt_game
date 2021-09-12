@@ -10,7 +10,7 @@ public enum OwnerSide : int
 
 public class Bullet : MonoBehaviour
 {
-    const float LifeTime = 15.0f;
+    const float LifeTime = 10.0f;
 
     OwnerSide ownerSide = OwnerSide.Player;
     [SerializeField]
@@ -24,6 +24,10 @@ public class Bullet : MonoBehaviour
     float FireTime;
 
     bool NeedMove = false;
+
+    [SerializeField]
+    int Damage = 1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,12 +53,13 @@ public class Bullet : MonoBehaviour
         transform.position += moveVector;
     }
 
-    public void Fire(OwnerSide FireOwner, Vector3 firePosition, Vector3 direction, float speed)
+    public void Fire(OwnerSide FireOwner, Vector3 firePosition, Vector3 direction, float speed, int damage)
     {
         ownerSide = FireOwner;
         transform.position = firePosition;
         moveDirection = direction;
         Speed = speed;
+        Damage = damage;
 
         FireTime = Time.time;
         NeedMove = true;
@@ -68,6 +73,10 @@ public class Bullet : MonoBehaviour
         // 그 선에 뭐가 걸리는지 체크
         if(Physics.Linecast(transform.position,transform.position + moveVector, out hitInfo))
         {
+            Actor actor = hitInfo.collider.GetComponentInParent<Actor>();
+            if (actor && actor.IsDead)
+                return moveVector;
+
             moveVector = hitInfo.point - transform.position;
             OnBulletCollision(hitInfo.collider);
         }
@@ -79,20 +88,29 @@ public class Bullet : MonoBehaviour
         if (hited)
             return;
 
+        if (ownerSide == OwnerSide.Player)
+        {
+            Enemy enemy = collider.GetComponentInParent<Enemy>();
+            if (enemy.IsDead)
+                return;
+
+            enemy.OnBulletHited(Damage);
+        }
+        else
+        {
+            Player player = collider.GetComponentInParent<Player>();
+            if (player.IsDead)
+                return;
+
+            player.OnBulletHited(Damage);
+        }
+
         Collider myCollider = GetComponentInChildren<Collider>();
         myCollider.enabled = false;
 
         hited = true;
         NeedMove = false;
 
-        if (ownerSide == OwnerSide.Player)
-        {
-            Enemy enemy = collider.GetComponentInParent<Enemy>();
-        }
-        else
-        {
-            Player player = collider.GetComponentInParent<Player>();
-        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -102,7 +120,14 @@ public class Bullet : MonoBehaviour
 
     bool ProcessDisappearCondition()
     {
-        if(transform.position.x > 6.0f || transform.position.x < -6.0f 
+        if (hited)
+        {
+            Disappear();
+            return true;
+        }
+
+
+        if (transform.position.x > 6.0f || transform.position.x < -6.0f 
             || transform.position.y > 6.0f || transform.position.y < -6.0f)
         {
             Disappear();

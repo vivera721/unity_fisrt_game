@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Actor
 {
     public enum State
     {
@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void UpdateActor()
     {
 
         switch (CurrenState)
@@ -71,6 +71,7 @@ public class Enemy : MonoBehaviour
                 UpdateBattle();
                 break;
             default:
+                Debug.LogError("상태가 정의되지 않았습니다!");
                 break;
         }
 
@@ -147,19 +148,29 @@ public class Enemy : MonoBehaviour
 
         Player player = other.GetComponentInParent<Player>();
         if (player)
-            player.OnCrash(this);
+            if(!player.IsDead)
+                player.OnCrash(this, CrashDamage);
     }
-    public void OnCrash(Player player)
+    public void OnCrash(Player player, int damage)
     {
         Debug.Log("oncrash player = " + player);
+        OnCrash(damage);
     }
     public void Fire()
     {
-        Player player1 = SystemManager.Instance.Hero;
+        Vector3 player1 = new Vector3(0, 0, 0);
+        player1 = SystemManager.Instance.Hero.transform.position;
 
         GameObject go = Instantiate(Bullet);
         Bullet bullet = go.GetComponent<Bullet>();
-        bullet.Fire(OwnerSide.Enemy, FireTransform.position, player1.transform.position, BulletSpeed);
+        bullet.Fire(OwnerSide.Enemy, FireTransform.position, player1, BulletSpeed,Damage);
 
+    }
+
+    protected override void OnDead()
+    {
+        base.OnDead();
+
+        CurrenState = State.Dead;
     }
 }
