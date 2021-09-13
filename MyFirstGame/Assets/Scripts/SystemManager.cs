@@ -25,6 +25,27 @@ public class SystemManager : MonoBehaviour
         }
     }
 
+    GamePointAccumulator gamePointAccumulator = new GamePointAccumulator();
+
+    public GamePointAccumulator GamePointAccumulator
+    {
+        get
+        {
+            return gamePointAccumulator;
+        }
+    }
+
+    [SerializeField]
+    EffectManager effectManager;
+
+    public EffectManager EffectManager
+    {
+        get
+        {
+            return effectManager;
+        }
+    }
+
     private void Awake()
     {
         if (instance != null)

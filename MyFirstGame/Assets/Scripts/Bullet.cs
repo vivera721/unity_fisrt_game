@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum OwnerSide : int
-{
-    Player = 0,
-    Enemy
-}
 
 public class Bullet : MonoBehaviour
 {
     const float LifeTime = 10.0f;
 
-    OwnerSide ownerSide = OwnerSide.Player;
     [SerializeField]
     Vector3 moveDirection = Vector3.zero;
 
@@ -28,10 +22,12 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     int Damage = 1;
 
+    Actor Owner;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -53,9 +49,9 @@ public class Bullet : MonoBehaviour
         transform.position += moveVector;
     }
 
-    public void Fire(OwnerSide FireOwner, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    public void Fire(Actor owner, Vector3 firePosition, Vector3 direction, float speed, int damage)
     {
-        ownerSide = FireOwner;
+        Owner = owner;
         transform.position = firePosition;
         moveDirection = direction;
         Speed = speed;
@@ -71,7 +67,7 @@ public class Bullet : MonoBehaviour
 
         // 라인 캐스트는 시작점 끝점이 있는 선
         // 그 선에 뭐가 걸리는지 체크
-        if(Physics.Linecast(transform.position,transform.position + moveVector, out hitInfo))
+        if (Physics.Linecast(transform.position, transform.position + moveVector, out hitInfo))
         {
             Actor actor = hitInfo.collider.GetComponentInParent<Actor>();
             if (actor && actor.IsDead)
@@ -87,23 +83,17 @@ public class Bullet : MonoBehaviour
     {
         if (hited)
             return;
-
-        if (ownerSide == OwnerSide.Player)
+        if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyBullet")
+           || collider.gameObject.layer == LayerMask.NameToLayer("PlayerBullet"))
         {
-            Enemy enemy = collider.GetComponentInParent<Enemy>();
-            if (enemy.IsDead)
-                return;
-
-            enemy.OnBulletHited(Damage);
+            return;
         }
-        else
-        {
-            Player player = collider.GetComponentInParent<Player>();
-            if (player.IsDead)
-                return;
 
-            player.OnBulletHited(Damage);
-        }
+        Actor actor = collider.GetComponentInParent<Actor>();
+        if (actor && actor.IsDead)
+            return;
+
+        actor.OnBulletHited(Owner, Damage);
 
         Collider myCollider = GetComponentInChildren<Collider>();
         myCollider.enabled = false;
@@ -127,13 +117,13 @@ public class Bullet : MonoBehaviour
         }
 
 
-        if (transform.position.x > 6.0f || transform.position.x < -6.0f 
+        if (transform.position.x > 6.0f || transform.position.x < -6.0f
             || transform.position.y > 6.0f || transform.position.y < -6.0f)
         {
             Disappear();
             return true;
         }
-        else if(Time.time - FireTime > LifeTime)
+        else if (Time.time - FireTime > LifeTime)
         {
             Disappear();
             return true;

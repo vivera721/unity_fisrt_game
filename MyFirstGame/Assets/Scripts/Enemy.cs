@@ -44,6 +44,8 @@ public class Enemy : Actor
     [SerializeField]
     int FireRemainCount = 1;
 
+    [SerializeField]
+    int GamePoint = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -151,25 +153,26 @@ public class Enemy : Actor
             if(!player.IsDead)
                 player.OnCrash(this, CrashDamage);
     }
-    public void OnCrash(Player player, int damage)
+    public override void OnCrash(Actor attacker, int damage)
     {
-        Debug.Log("oncrash player = " + player);
-        OnCrash(damage);
+        base.OnCrash(attacker, damage);
     }
     public void Fire()
     {
-        Vector3 player1 = new Vector3(0, 0, 0);
+        Vector3 player1;
         player1 = SystemManager.Instance.Hero.transform.position;
 
         GameObject go = Instantiate(Bullet);
         Bullet bullet = go.GetComponent<Bullet>();
-        bullet.Fire(OwnerSide.Enemy, FireTransform.position, player1, BulletSpeed,Damage);
+        bullet.Fire(this, FireTransform.position, player1, BulletSpeed,Damage);
 
     }
 
-    protected override void OnDead()
+    protected override void OnDead(Actor killer)
     {
-        base.OnDead();
+        base.OnDead(killer);
+
+        SystemManager.Instance.GamePointAccumulator.Accumulator(GamePoint);
 
         CurrenState = State.Dead;
     }

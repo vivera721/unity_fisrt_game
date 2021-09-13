@@ -72,10 +72,9 @@ public class Player : Actor
                 enemy.OnCrash(this, CrashDamage);
     }
 
-    public void OnCrash(Enemy enemy, int damage)
+    public override void OnCrash(Actor attacker, int damage)
     {
-        Debug.Log("oncrash enemy = " + enemy);
-        OnCrash(damage);
+        base.OnCrash(attacker, damage);
     }
 
     public void Fire()
@@ -85,8 +84,8 @@ public class Player : Actor
         GameObject rightgo = Instantiate(Bullet);
         Bullet leftbullet = leftgo.GetComponent<Bullet>();
         Bullet rightbullet = rightgo.GetComponent<Bullet>();
-        leftbullet.Fire(OwnerSide.Player, FireTransformLeft.position, FireTransformLeft.up, BulletSpeed, Damage);
-        rightbullet.Fire(OwnerSide.Player, FireTransformRight.position, FireTransformRight.up, BulletSpeed, Damage);
+        leftbullet.Fire(this, FireTransformLeft.position, FireTransformLeft.up, BulletSpeed, Damage);
+        rightbullet.Fire(this, FireTransformRight.position, FireTransformRight.up, BulletSpeed, Damage);
 
     }
 
