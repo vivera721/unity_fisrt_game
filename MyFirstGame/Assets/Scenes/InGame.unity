@@ -153,6 +153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyFactory: {fileID: 1767129666}
+  enemyFiles:
+  - filePath: Prefabs/Enemy
+    cacheCount: 20
 --- !u!4 &152980801
 Transform:
   m_ObjectHideFlags: 0
@@ -178,6 +181,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371d1c00fbd7f1d48890e5cfa6c2bb59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &527715595
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 527715597}
+  - component: {fileID: 527715596}
+  m_Layer: 0
+  m_Name: BulletManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &527715596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527715595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 562d1a279a2dbfe4ea9465eaddef40c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletFiles:
+  - filePath: Prefabs/Bullet
+    cacheCount: 50
+  - filePath: Prefabs/EnemyBullet
+    cacheCount: 30
+--- !u!4 &527715597
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527715595}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f314893e79a95334a8ca9aa5aeeda686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectPrefabs: []
+  effectFiles: []
 --- !u!4 &909586359
 Transform:
   m_ObjectHideFlags: 0
@@ -429,6 +480,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 395631070}
   effectManager: {fileID: 909586358}
+  enemyManager: {fileID: 152980800}
+  bulletManager: {fileID: 527715596}
 --- !u!4 &988835573
 Transform:
   m_ObjectHideFlags: 0

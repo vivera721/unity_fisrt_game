@@ -45,6 +45,55 @@ public class SystemManager : MonoBehaviour
             return effectManager;
         }
     }
+    [SerializeField]
+    EnemyManager enemyManager;
+
+    public EnemyManager EnemyManager
+    {
+        get
+        {
+            return enemyManager;
+        }
+    }
+
+    [SerializeField]
+    BulletManager bulletManager;
+    public BulletManager BulletManager
+    {
+        get
+        {
+            return bulletManager;
+        }
+    }
+
+
+
+    PrefabCacheSystem enemyCacheSystem = new PrefabCacheSystem();
+    public PrefabCacheSystem EnemyCacheSystem
+    {
+        get
+        {
+            return enemyCacheSystem;
+        }
+    }
+
+    PrefabCacheSystem bulletCacheSystem = new PrefabCacheSystem();
+    public PrefabCacheSystem BulletCacheSystem
+    {
+        get
+        {
+            return bulletCacheSystem;
+        }
+    }
+
+    PrefabCacheSystem effectCacheSystem = new PrefabCacheSystem();
+    public PrefabCacheSystem EffectCacheSystem
+    {
+        get
+        {
+            return effectCacheSystem;
+        }
+    }
 
     private void Awake()
     {

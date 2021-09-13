@@ -18,8 +18,6 @@ public class Player : Actor
     [SerializeField]
     Transform FireTransformRight;
 
-    [SerializeField]
-    GameObject Bullet;
 
     [SerializeField]
     float BulletSpeed = 1;
@@ -79,11 +77,8 @@ public class Player : Actor
 
     public void Fire()
     {
-
-        GameObject leftgo = Instantiate(Bullet);
-        GameObject rightgo = Instantiate(Bullet);
-        Bullet leftbullet = leftgo.GetComponent<Bullet>();
-        Bullet rightbullet = rightgo.GetComponent<Bullet>();
+        Bullet leftbullet = SystemManager.Instance.BulletManager.Generate(BulletManager.PlayerBulletIndex);
+        Bullet rightbullet = SystemManager.Instance.BulletManager.Generate(BulletManager.PlayerBulletIndex);
         leftbullet.Fire(this, FireTransformLeft.position, FireTransformLeft.up, BulletSpeed, Damage);
         rightbullet.Fire(this, FireTransformRight.position, FireTransformRight.up, BulletSpeed, Damage);
 
