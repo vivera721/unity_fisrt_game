@@ -89,4 +89,9 @@ public class Player : Actor
 
     }
 
+    protected override void OnDead(Actor killer)
+    {
+        base.OnDead(killer);
+        gameObject.SetActive(false);
+    }
 }

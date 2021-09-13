@@ -89,6 +89,8 @@ public class Actor : MonoBehaviour
     {
         Debug.Log(name + " Á×À½!");
         isDead = true;
+
+        SystemManager.Instance.EffectManager.GenerateEffect(1, transform.position);
     }
 
 
