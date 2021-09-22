@@ -22,7 +22,13 @@ public class Player : Actor
     [SerializeField]
     float BulletSpeed = 1;
 
-    private Transform tp;
+    protected override void Initialize()
+    {
+        base.Initialize();
+        PlayerStatePanel playerStatePanel = PanelManager.GetPanel(typeof(PlayerStatePanel)) as PlayerStatePanel;
+        playerStatePanel.SetHP(CurrentHP, MaxHP);
+    }
+
 
     protected override void UpdateActor()
     {
@@ -82,6 +88,13 @@ public class Player : Actor
         leftbullet.Fire(this, FireTransformLeft.position, FireTransformLeft.up, BulletSpeed, Damage);
         rightbullet.Fire(this, FireTransformRight.position, FireTransformRight.up, BulletSpeed, Damage);
 
+    }
+
+    protected override void DecreaseHP(Actor attacker, int value)
+    {
+        base.DecreaseHP(attacker, value);
+        PlayerStatePanel playerStatePanel = PanelManager.GetPanel(typeof(PlayerStatePanel)) as PlayerStatePanel;
+        playerStatePanel.SetHP(CurrentHP, MaxHP);
     }
 
     protected override void OnDead(Actor killer)
