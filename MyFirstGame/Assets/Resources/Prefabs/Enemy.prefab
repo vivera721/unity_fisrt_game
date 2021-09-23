@@ -182,7 +182,7 @@ Transform:
   m_GameObject: {fileID: 7603350387291157547}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
   m_Children:
   - {fileID: 5714156660888759204}
   - {fileID: 1957322259393562492}
@@ -208,11 +208,10 @@ MonoBehaviour:
   Damage: 35
   crashDamage: 100
   isDead: 0
-  CurrenState: -1
+  CurrentState: -1
   TargetPosition: {x: 0, y: 0, z: 0}
   CurrentSpeed: 0
   FireTransform: {fileID: 7691318894357244956}
-  Bullet: {fileID: 3409438217321598266, guid: e330bcf416632294db1dbffaa70d8892, type: 3}
   BulletSpeed: 5
   FireRemainCount: 3
   GamePoint: 10

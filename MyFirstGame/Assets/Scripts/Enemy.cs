@@ -15,7 +15,7 @@ public class Enemy : Actor
     }
 
     [SerializeField]
-    State CurrenState = State.None;
+    State CurrentState = State.None;
 
     const float MaxSpeed = 10.0f;
     const float MaxSpeedTime = 0.5f;
@@ -37,7 +37,7 @@ public class Enemy : Actor
     [SerializeField]
     float BulletSpeed = 1;
 
-    float LastBattleUpdateTime = 0.0f;
+    float LastActionUpdateTime = 0.0f;
 
     [SerializeField]
     int FireRemainCount = 1;
@@ -51,20 +51,20 @@ public class Enemy : Actor
         set;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
+    Vector3 AppearPoint;      // 입장시 도착 위치
+    Vector3 DisappearPoint;      // 퇴장시 목표 위치
 
     // Update is called once per frame
     protected override void UpdateActor()
     {
 
-        switch (CurrenState)
+        switch (CurrentState)
         {
             case State.None:
+                break;
             case State.Ready:
+                UpdateReady();
                 break;
             case State.Dead:
                 break;
@@ -104,23 +104,38 @@ public class Enemy : Actor
     void Arrived()
     {
         CurrentSpeed = 0.0f;
-        if (CurrenState == State.Appear)
+        if (CurrentState == State.Appear)
         {
-            CurrenState = State.Battle;
-            LastBattleUpdateTime = Time.time;
+            CurrentState = State.Battle;
+            LastActionUpdateTime = Time.time;
         }
         else
         {
-            CurrenState = State.None; 
+            CurrentState = State.None; 
             SystemManager.Instance.EnemyManager.RemoveEnemy(this);
         }
+    }
+    public void Reset(EnemyGenerateData data)
+    {
+        CurrentHP = MaxHP = data.MaxHP;             // CurrentHP까지 다시 입력
+        Damage = data.Damage;                       // 총알 데미지
+        crashDamage = data.CrashDamage;             // 충돌 데미지
+        BulletSpeed = data.BulletSpeed;             // 총알 속도
+        FireRemainCount = data.FireRemainCount;     // 발사할 총알 갯수
+        GamePoint = data.GamePoint;                 // 파괴시 얻을 점수
+
+        AppearPoint = data.AppearPoint;             // 입장시 도착 위치 
+        DisappearPoint = data.DisappearPoint;       // 퇴장시 목표 위치
+
+        CurrentState = State.Ready;
+        LastActionUpdateTime = Time.time;
     }
     public void Appear(Vector3 targetPos)
     {
         TargetPosition = targetPos;
         CurrentSpeed = MaxSpeed;
 
-        CurrenState = State.Appear;
+        CurrentState = State.Appear;
         MoveStartTime = Time.time;
     }
     void Disappear(Vector3 targetPos)
@@ -128,12 +143,19 @@ public class Enemy : Actor
         TargetPosition = targetPos;
         CurrentSpeed = 0;
 
-        CurrenState = State.Disappear;
+        CurrentState = State.Disappear;
         MoveStartTime = Time.time;
+    }
+    void UpdateReady()
+    {
+        if (Time.time - LastActionUpdateTime > 1.0f)
+        {
+            Appear(AppearPoint);
+        }
     }
     void UpdateBattle()
     {
-        if (Time.time - LastBattleUpdateTime > 1.0f)
+        if (Time.time - LastActionUpdateTime > 1.0f)
         {
             if (FireRemainCount > 0)
             {
@@ -142,10 +164,10 @@ public class Enemy : Actor
             }
             else
             {
-                Disappear(new Vector3(transform.position.x, -6.0f, transform.position.z));
+                Disappear(DisappearPoint);
             }
 
-            LastBattleUpdateTime = Time.time;
+            LastActionUpdateTime = Time.time;
         }
     }
 
@@ -178,6 +200,6 @@ public class Enemy : Actor
         SystemManager.Instance.GamePointAccumulator.Accumulator(GamePoint);
         SystemManager.Instance.EnemyManager.RemoveEnemy(this);
 
-        CurrenState = State.Dead;
+        CurrentState = State.Dead;
     }
 }
