@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class LoadingSceneMain : MonoBehaviour
+public class LoadingSceneMain : BaseSceneMain
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    const float TextUpdateIntaval = 0.15f;
+    float LastUpdateTime;
 
-    // Update is called once per frame
-    void Update()
+    protected override void UpdateScene()
     {
-        
+        base.UpdateScene();
+
+        float currentTime = Time.time;
+        if (currentTime - LastUpdateTime > TextUpdateIntaval)
+        {
+            LastUpdateTime = currentTime;
+        }
+
+        //
     }
 }
