@@ -14,11 +14,11 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateInput();
+        UpdateKeyboard();
         UpdateZKey();
     }
 
-    void UpdateInput()
+    void UpdateKeyboard()
     {
         Vector3 moveDir = Vector3.zero;
 
@@ -38,8 +38,7 @@ public class InputController : MonoBehaviour
         {
             moveDir.x = 1;
         }
-
-        SystemManager.Instance.Hero.ProcessInput(moveDir);
+        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().Hero.ProcessInput(moveDir);
     }
 
     void UpdateZKey()
@@ -50,7 +49,7 @@ public class InputController : MonoBehaviour
             DelayTime++;
             if(DelayTime % 50 == 1)
             {
-                SystemManager.Instance.Hero.Fire();
+                SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().Hero.Fire();
             }
         }
     }

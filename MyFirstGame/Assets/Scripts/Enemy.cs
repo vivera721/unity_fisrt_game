@@ -111,8 +111,8 @@ public class Enemy : Actor
         }
         else
         {
-            CurrentState = State.None; 
-            SystemManager.Instance.EnemyManager.RemoveEnemy(this);
+            CurrentState = State.None;
+            SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EnemyManager.RemoveEnemy(this);
         }
     }
     public void Reset(SquadronMemberStruct data)
@@ -189,18 +189,16 @@ public class Enemy : Actor
     public void Fire()
     {
         Vector3 player1;
-        player1 = SystemManager.Instance.Hero.transform.position;
-
-        Bullet bullet = SystemManager.Instance.BulletManager.Generate(BulletManager.EnemyBulletIndex);
+        player1 = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().Hero.transform.position;
+        Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.EnemyBulletIndex);
         bullet.Fire(this, FireTransform.position, player1, BulletSpeed,Damage);
     }
 
     protected override void OnDead(Actor killer)
     {
         base.OnDead(killer);
-
-        SystemManager.Instance.GamePointAccumulator.Accumulator(GamePoint);
-        SystemManager.Instance.EnemyManager.RemoveEnemy(this);
+        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().GamePointAccumulator.Accumulator(GamePoint);
+        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EnemyManager.RemoveEnemy(this);
 
         CurrentState = State.Dead;
     }

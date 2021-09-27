@@ -83,8 +83,8 @@ public class Player : Actor
 
     public void Fire()
     {
-        Bullet leftbullet = SystemManager.Instance.BulletManager.Generate(BulletManager.PlayerBulletIndex);
-        Bullet rightbullet = SystemManager.Instance.BulletManager.Generate(BulletManager.PlayerBulletIndex);
+        Bullet leftbullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBulletIndex);
+        Bullet rightbullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBulletIndex);
         leftbullet.Fire(this, FireTransformLeft.position, FireTransformLeft.up, BulletSpeed, Damage);
         rightbullet.Fire(this, FireTransformRight.position, FireTransformRight.up, BulletSpeed, Damage);
 

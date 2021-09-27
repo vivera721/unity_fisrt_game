@@ -13,88 +13,6 @@ public class SystemManager : MonoBehaviour
             return instance;
         }
     }
-
-    [SerializeField]
-    Player player;
-
-    public Player Hero
-    {
-        get
-        {
-            return player;
-        }
-    }
-
-    GamePointAccumulator gamePointAccumulator = new GamePointAccumulator();
-
-    public GamePointAccumulator GamePointAccumulator
-    {
-        get
-        {
-            return gamePointAccumulator;
-        }
-    }
-
-    [SerializeField]
-    EffectManager effectManager;
-
-    public EffectManager EffectManager
-    {
-        get
-        {
-            return effectManager;
-        }
-    }
-    [SerializeField]
-    EnemyManager enemyManager;
-
-    public EnemyManager EnemyManager
-    {
-        get
-        {
-            return enemyManager;
-        }
-    }
-
-    [SerializeField]
-    BulletManager bulletManager;
-    public BulletManager BulletManager
-    {
-        get
-        {
-            return bulletManager;
-        }
-    }
-
-
-
-    PrefabCacheSystem enemyCacheSystem = new PrefabCacheSystem();
-    public PrefabCacheSystem EnemyCacheSystem
-    {
-        get
-        {
-            return enemyCacheSystem;
-        }
-    }
-
-    PrefabCacheSystem bulletCacheSystem = new PrefabCacheSystem();
-    public PrefabCacheSystem BulletCacheSystem
-    {
-        get
-        {
-            return bulletCacheSystem;
-        }
-    }
-
-    PrefabCacheSystem effectCacheSystem = new PrefabCacheSystem();
-    public PrefabCacheSystem EffectCacheSystem
-    {
-        get
-        {
-            return effectCacheSystem;
-        }
-    }
-
     [SerializeField]
     EnemyTable enemyTable;
 
@@ -103,6 +21,16 @@ public class SystemManager : MonoBehaviour
         get
         {
             return enemyTable;
+        }
+    }
+
+    BaseSceneMain currentSceneMain;
+
+    public BaseSceneMain CurrentSceneMain
+    {
+        set
+        {
+            currentSceneMain = value;
         }
     }
     private void Awake()
@@ -123,12 +51,20 @@ public class SystemManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        BaseSceneMain baseSceneMain = GameObject.FindObjectOfType<BaseSceneMain>();
+        Debug.Log("OnSceneLoaded ! baseSceneMain.name = " + baseSceneMain.name);
+        SystemManager.Instance.CurrentSceneMain = baseSceneMain;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public T GetCurrentSceneMain<T>()
+         where T : BaseSceneMain
+    {
+        return currentSceneMain as T;
     }
 }
