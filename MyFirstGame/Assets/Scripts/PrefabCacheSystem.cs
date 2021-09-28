@@ -13,7 +13,7 @@ public class PrefabCacheSystem
 {
     Dictionary<string, Queue<GameObject>> Caches = new Dictionary<string, Queue<GameObject>>();
 
-    public void GenerateCache(string filePath, GameObject gameObject, int cacheCount)
+    public void GenerateCache(string filePath, GameObject gameObject, int cacheCount, Transform parentTransform = null)
     {
         if (Caches.ContainsKey(filePath))
         {

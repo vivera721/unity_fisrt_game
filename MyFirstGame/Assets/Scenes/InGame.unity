@@ -200,6 +200,7 @@ MonoBehaviour:
   effectManager: {fileID: 909586358}
   enemyManager: {fileID: 346241247}
   bulletManager: {fileID: 527715596}
+  itemBoxManager: {fileID: 1223000101}
   squadronManager: {fileID: 478754824}
 --- !u!4 &70982996
 Transform:
@@ -1204,6 +1205,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1223000100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1223000102}
+  - component: {fileID: 1223000101}
+  m_Layer: 0
+  m_Name: ItemBoxManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1223000101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223000100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9591060c96c4264894b4d0a7e8dcd65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemBoxFiles:
+  - filePath: Prefabs/ItemBoxRed
+    cacheCount: 50
+  - filePath: Prefabs/ItemBoxBlue
+    cacheCount: 200
+  - filePath: Prefabs/ItemBoxOrange
+    cacheCount: 5
+--- !u!4 &1223000102
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223000100}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1244717202
 GameObject:
