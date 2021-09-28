@@ -13,6 +13,9 @@ public class ItemBox : MonoBehaviour
     [SerializeField]
     string filePath;
 
+    [SerializeField]
+    Vector3 MoveVector = Vector3.zero;
+
     public string FilePath
     {
         get
@@ -41,7 +44,13 @@ public class ItemBox : MonoBehaviour
     void Update()
     {
         UpdateRotate();
-        UpdateColor();
+        UpdateColor(); 
+        UpdateMove();
+    }
+
+    void UpdateMove()
+    {
+        SelfTransform.position += MoveVector * Time.deltaTime;
     }
 
     void UpdateRotate()
@@ -75,5 +84,22 @@ public class ItemBox : MonoBehaviour
         }
 
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player"))
+            return;
 
+        OnItemCollision(other);
+    }
+
+    void OnItemCollision(Collider other)
+    {
+        Player player = other.GetComponentInParent<Player>();
+        if (player == null)
+            return;
+
+        if (player.IsDead)
+            return;
+        Debug.Log("OnItemCollision");
+    }
 }

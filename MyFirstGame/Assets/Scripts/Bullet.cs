@@ -75,6 +75,10 @@ public class Bullet : MonoBehaviour
         // 그 선에 뭐가 걸리는지 체크
         if (Physics.Linecast(transform.position, transform.position + moveVector, out hitInfo))
         {
+            int colliderLayer = hitInfo.collider.gameObject.layer;
+            if (colliderLayer != LayerMask.NameToLayer("Enemy") && colliderLayer != LayerMask.NameToLayer("Player"))
+                return moveVector;
+
             Actor actor = hitInfo.collider.GetComponentInParent<Actor>();
             if (actor && actor.IsDead)
                 return moveVector;
@@ -95,11 +99,16 @@ public class Bullet : MonoBehaviour
             return;
         }
 
-        Actor actor = collider.GetComponentInParent<Actor>();
-        if (actor && actor.IsDead || actor.gameObject.layer == Owner.gameObject.layer)
+        Actor owner = collider.GetComponentInParent<Actor>();
+        if (owner == null)  // 호스트나 클라이언트중 한쪽이 끊어졌을때 발생할 수 있음
             return;
 
-        actor.OnBulletHited(Owner, Damage);
+        Actor actor = collider.GetComponentInParent<Actor>();
+        if (actor == null)
+            return;
+
+        if (actor.IsDead || actor.gameObject.layer == owner.gameObject.layer)
+            actor.OnBulletHited(Owner, Damage);
 
         Collider myCollider = GetComponentInChildren<Collider>();
         myCollider.enabled = false;
@@ -115,6 +124,9 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        int colliderLayer = other.gameObject.layer;
+        if (colliderLayer != LayerMask.NameToLayer("Enemy") && colliderLayer != LayerMask.NameToLayer("Player"))
+            return;
         OnBulletCollision(other);
     }
 
