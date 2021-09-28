@@ -18,9 +18,9 @@ public class Player : Actor
     [SerializeField]
     Transform FireTransformRight;
 
-
     [SerializeField]
     float BulletSpeed = 1;
+
 
     protected override void Initialize()
     {
@@ -101,5 +101,19 @@ public class Player : Actor
     {
         base.OnDead(killer);
         gameObject.SetActive(false);
+    }
+
+    protected override void InternalIncreaseHP(int value)
+    {
+        base.InternalIncreaseHP(value);
+    }
+
+    public override void IncreaseHP(int value)
+    {
+        base.IncreaseHP(value);
+    }
+    public override void IncreaseUsableItem(int value = 1)
+    {
+        base.IncreaseUsableItem(value);
     }
 }

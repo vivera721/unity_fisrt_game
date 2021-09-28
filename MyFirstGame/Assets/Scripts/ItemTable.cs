@@ -5,24 +5,17 @@ using System.Runtime.InteropServices;
 
 [System.Serializable]
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-public struct EnemyStruct
+public struct ItemStruct
 {
     public int index;
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MarshalTableConstant.charBufferSize)]
     public string FilePath;
-    public int MaxHP;
-    public int Damage;
-    public int CrashDamage;
-    public int BulletSpeed;
-    public int FireRemainCount;
-    public int GamePoint; 
-    public float ItemDropRate;
-    public int ItemDropID;
+    public int Value;
 }
 
-public class EnemyTable : TableLoader<EnemyStruct>
+public class ItemTable : TableLoader<ItemStruct>
 {
-    Dictionary<int, EnemyStruct> tableDatas = new Dictionary<int, EnemyStruct>();
+    Dictionary<int, ItemStruct> tableDatas = new Dictionary<int, ItemStruct>();
 
     // Start is called before the first frame update
     void Start()
@@ -36,17 +29,17 @@ public class EnemyTable : TableLoader<EnemyStruct>
 
     }
 
-    protected override void AddData(EnemyStruct data)
+    protected override void AddData(ItemStruct data)
     {
         tableDatas.Add(data.index, data);
     }
 
-    public EnemyStruct GetEnemy(int index)
+    public ItemStruct GetItem(int index)
     {
         if (!tableDatas.ContainsKey(index))
         {
-            Debug.LogError("GetEnemy Error! index = " + index);
-            return default(EnemyStruct);
+            Debug.LogError("GetItem Error! index = " + index);
+            return default(ItemStruct);
         }
 
         return tableDatas[index];

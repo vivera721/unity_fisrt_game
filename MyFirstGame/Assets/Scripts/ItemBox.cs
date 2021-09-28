@@ -4,6 +4,19 @@ using UnityEngine;
 
 public class ItemBox : MonoBehaviour
 {
+    const int HPRecoveryValue = 20;
+    const int ScoreAddValue = 100;
+
+    public enum ItemEffect : int
+    {
+        HPRecovery = 0,
+        ScoreAdd,
+        UsableItemAdd,
+    }
+
+    [SerializeField]
+    ItemEffect itemEffect = ItemEffect.HPRecovery;
+
     [SerializeField]
     Transform SelfTransform;
 
@@ -99,7 +112,30 @@ public class ItemBox : MonoBehaviour
             return;
 
         if (player.IsDead)
-            return;
-        Debug.Log("OnItemCollision");
+            return; 
+
+        if (player)
+        {
+
+            switch (itemEffect)
+            {
+                case ItemEffect.HPRecovery:
+                    player.IncreaseHP(HPRecoveryValue);
+                    break;
+                case ItemEffect.ScoreAdd:
+                    InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
+                    inGameSceneMain.GamePointAccumulator.Accumulator(ScoreAddValue);
+                    break;
+                case ItemEffect.UsableItemAdd:
+                    player.IncreaseUsableItem();
+                    break;
+            }
+        }
+
+        Disappear();
+    }
+    void Disappear()
+    {
+        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().ItemBoxManager.Remove(this);
     }
 }

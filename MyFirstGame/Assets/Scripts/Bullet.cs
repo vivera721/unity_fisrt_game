@@ -110,8 +110,8 @@ public class Bullet : MonoBehaviour
         if (actor.IsDead || actor.gameObject.layer == owner.gameObject.layer)
             actor.OnBulletHited(Owner, Damage);
 
-        Collider myCollider = GetComponentInChildren<Collider>();
-        myCollider.enabled = false;
+        //Collider myCollider = GetComponentInChildren<Collider>();
+        //myCollider.enabled = false;
 
         hited = true;
         NeedMove = false;

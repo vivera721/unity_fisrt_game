@@ -27,6 +27,16 @@ public class Actor : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    int UsableItemCount = 0;
+
+    public int ItemCount
+    {
+        get
+        {
+            return UsableItemCount;
+        }
+    }
     protected int CrashDamage
     {
         get
@@ -83,6 +93,41 @@ public class Actor : MonoBehaviour
         {
             OnDead(attacker);
         }
+    }
+    protected virtual void InternalIncreaseHP(int value)
+    {
+        if (isDead)
+            return;
+
+        CurrentHP += value;
+
+        if (CurrentHP > MaxHP)
+            CurrentHP = MaxHP;
+    }
+
+    public virtual void IncreaseHP(int value)
+    {
+        if (isDead)
+            return;
+
+    }
+
+    public void CmdIncreaseHP(int value)
+    {
+        InternalIncreaseHP(value);
+    }
+
+    public virtual void IncreaseUsableItem(int value = 1)
+    {
+        if (isDead)
+            return;
+        //
+        CmdIncreaseUsableItem(value);
+    }
+
+    public void CmdIncreaseUsableItem(int value)
+    {
+        UsableItemCount += value;
     }
 
     protected virtual void OnDead(Actor killer)
