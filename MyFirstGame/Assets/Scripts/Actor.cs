@@ -4,11 +4,28 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
+
     [SerializeField]
     protected int MaxHP = 100;
 
+    public int HPMax
+    {
+        get
+        {
+            return MaxHP;
+        }
+    }
+
     [SerializeField]
     protected int CurrentHP;
+
+    public int HPCurrent
+    {
+        get
+        {
+            return CurrentHP;
+        }
+    }
 
     [SerializeField]
     protected int Damage = 1;

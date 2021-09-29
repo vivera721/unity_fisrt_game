@@ -8,9 +8,9 @@ public class ItemPanel : BasePanel
     [SerializeField]
     Text ItemCountText;
 
-    Player hero = null;
+    Actor hero = null;
 
-    Player Hero
+    Actor Hero
     {
         get
         {
@@ -19,14 +19,14 @@ public class ItemPanel : BasePanel
             return hero;
         }
     }
-    
-    //public override void UpdatePanel()
-    //{
-    //    base.UpdatePanel();
-    //    if (Hero != null)
-    //    {
-    //        ItemCountText.text = hero.ItemCount.ToString();
-    //    }
 
-    //}
+    public override void UpdatePanel()
+    {
+        base.UpdatePanel();
+        if (Hero != null)
+        {
+            ItemCountText.text = hero.ItemCount.ToString();
+        }
+
+    }
 }

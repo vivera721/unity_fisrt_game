@@ -25,8 +25,7 @@ public class Player : Actor
     protected override void Initialize()
     {
         base.Initialize();
-        PlayerStatePanel playerStatePanel = PanelManager.GetPanel(typeof(PlayerStatePanel)) as PlayerStatePanel;
-        playerStatePanel.SetHP(CurrentHP, MaxHP);
+        InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
     }
 
 
@@ -93,8 +92,6 @@ public class Player : Actor
     protected override void DecreaseHP(Actor attacker, int value)
     {
         base.DecreaseHP(attacker, value);
-        PlayerStatePanel playerStatePanel = PanelManager.GetPanel(typeof(PlayerStatePanel)) as PlayerStatePanel;
-        playerStatePanel.SetHP(CurrentHP, MaxHP);
     }
 
     protected override void OnDead(Actor killer)

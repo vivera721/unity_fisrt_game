@@ -195,8 +195,9 @@ public class Enemy : Actor
     }
     public void Fire()
     {
-        Vector3 player1;
-        player1 = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().Hero.transform.position;
+        
+        Vector3 player1 = new Vector3(SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().Hero.transform.position.x, SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().Hero.transform.position.y - 3.5f, 0);
+        
         Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.EnemyBulletIndex);
         bullet.Fire(this, FireTransform.position, player1, BulletSpeed,Damage);
     }

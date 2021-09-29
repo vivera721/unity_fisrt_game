@@ -18,7 +18,7 @@ public class BasePanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        UpdatePanel();
     }
 
     private void OnDestroy()
@@ -49,6 +49,11 @@ public class BasePanel : MonoBehaviour
     public virtual void Close()
     {
         gameObject.SetActive(false);
+    }
+
+    public virtual void UpdatePanel()
+    {
+
     }
 
 }
